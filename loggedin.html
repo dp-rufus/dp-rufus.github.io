@@ -25,7 +25,7 @@
 </script>
 
 <script>
-  document.querySelector('#logout').click(function(e){
+  document.querySelector('#logout').addEventListener('click',function(e){
     Intercom('shutdown');
     document.location='/';
     return false;
