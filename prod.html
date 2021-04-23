@@ -17,6 +17,43 @@
 <p>Use the Intercom widget in the bottom right corner to contact us</p>
 <p id="bottom">For external demos</p>
 
+<!-- Remove "Development Workspace" branding on Intercom widget (sorry!) -->
+<template id="injection">
+  <style>
+    .intercom-messenger-home-screen > div:first-child + div.intercom-messenger-header + div + div:last-child,
+    .intercom-conversation-body-main-group > div:first-child + div.composer-suggestions-container + div:last-child {
+      display: none !important;
+    }
+  </style>
+</template>
+<script>
+  "use strict";
+
+  function inject_css(iframe) {
+    if (iframe.getAttribute("data-injection-done") === null) {
+      const clone = document.querySelector("template#injection").content.cloneNode(true);
+      iframe.contentWindow.document.head.appendChild(clone);
+      iframe.setAttribute("data-injection-done", "true");
+    }
+  }
+
+  const target = "iframe[data-intercom-frame]";
+  const mo = new MutationObserver(mutations => {
+    for (const mutation of mutations) {
+      for (const node of mutation.addedNodes) {
+        if (node.nodeType === Node.ELEMENT_NODE) {
+          let iframes = node.querySelectorAll(target);
+          if (node.matches(target))
+            iframes.push(node);
+          for (const iframe of iframes)
+            inject_css(iframe);
+        }
+      }
+    }
+  });
+  mo.observe(document, {subtree: true, childList: true});
+</script>
+
 <script>
   window.intercomSettings = {
     app_id: "x8ywuxir",
