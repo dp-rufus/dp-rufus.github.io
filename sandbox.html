@@ -26,8 +26,7 @@
 <!-- Remove "Development Workspace" branding on Intercom widget (sorry!) -->
 <template id="injection">
   <style>
-    .intercom-messenger-home-screen > div:first-child + div.intercom-messenger-header + div + div:last-child,
-    .intercom-conversation-body-main-group > div:first-child + div.composer-suggestions-container + div:last-child {
+    div[data-testid="intercom-link"] {
       display: none !important;
     }
   </style>
